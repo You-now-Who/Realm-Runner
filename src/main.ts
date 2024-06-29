@@ -1,5 +1,5 @@
 // src/main.ts
-import { Client, Events, Message, GatewayIntentBits} from "discord.js";
+import { Client, Events, Message, GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -27,10 +27,10 @@ class RealmRunner {
       if (content.includes("flutter")){
         message.reply("Flutter SUCKS");
       }
-      if (content.includes("python") || content.includes("Python")){
-        message.reply("Python is the best");
+      if (content.includes("react")){
+        message.reply("React is the best");
       }
-
+      
     });
 
     this.client.on(Events.ClientReady, () => {
