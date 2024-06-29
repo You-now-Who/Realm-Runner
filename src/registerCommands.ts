@@ -14,54 +14,26 @@ const commands = [
     },
     {
         name: "start",
-        description: "Starts a new game of D&D",
+        description: "Registers a new player to the Realm Runner world",
         options: [
             {
-                name: "title",
+                name: "name",
+                description: "The name you'd like to go by in the Realm Runner world",
                 type: 3,
-                description: "New campaign title",
-                required: true,
+                required: true
             },
             {
                 name: "description",
+                description: "A short description of yourself",
                 type: 3,
-                description: "New campaign description",
-                required: true,
-            },
-            {
-                name: "character_class",
-                type: 3,
-                description: "Character class",
-                required: true,
-                choices: [
-                    {
-                        name: "Warrior",
-                        value: "warrior",
-                    },
-                    {
-                        name: "Mage",
-                        value: "mage",
-                    },
-                    {
-                        name: "Rogue",
-                        value: "rogue",
-                    },
-                ],
-            },
-            {
-                name: "starting_location",
-                type: 3,
-                description: "Starting location",
-                required: true,
-            },
-            {
-                name: "story_editor",
-                type: 3,
-                description: "Detailed editor for the story",
-                required: true,
-            },
-        ],
+                required: true
+            }
+        ]
     },
+    {
+        name: "campaign",
+        description: "View all the current available campaigns in the Realm Runner world",
+    }
 ];
 
 const rest = new REST({ version: "10" }).setToken(process.env.BOT_TOKEN || "");
