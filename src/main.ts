@@ -1,5 +1,5 @@
 // src/main.ts
-import { Client, Events, Message, GatewayIntentBits } from "discord.js";
+import { Client, Events, Message, GatewayIntentBits, EmbedBuilder } from "discord.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -29,13 +29,36 @@ class RealmRunner {
         if (interaction.commandName === "ping") {
             await interaction.reply("Pong!");
         }
-        else if (interaction.commandName === "react") {
-            await interaction.reply("React is the best!");
+        else if (interaction.commandName === "d20") {
+            const roll = Math.floor(Math.random() * 20) + 1;
+            await interaction.reply("You rolled a " + roll + "!");
         }
-        else if (interaction.commandName === "flutter") {
-            await interaction.reply("Flutter SUCKS!");
+        else if (interaction.commandName === "pizza") {
+            const type = interaction.options.getString("type");
+            const size = interaction.options.getString("size");
+            const crust = interaction.options.getString("crust");
+            // await interaction.reply("You ordered a " + type + " pizza!");
+            const embed = new EmbedBuilder()
+            .setTitle("Pizza Order")
+            .setDescription("Your pizza order has been received!")
+            .setColor("Random")
+            .addFields({
+                name: "Type",
+                value: type,
+                inline: true
+            }, {
+                name: "Size",
+                value: size,
+                inline: true
+            }, {
+                name: "Crust",
+                value: crust,
+                inline: true
+            
+            });
+            await interaction.reply({embeds: [embed]});
         }
-        
+
 
     });
 
