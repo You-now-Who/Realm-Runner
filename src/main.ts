@@ -20,17 +20,23 @@ class RealmRunner {
       if (message.author.bot) {
         return;
       }
-      const { content } = message;
-      if (content === "ping") {
-        message.reply("pong");
-      }
-      if (content.includes("flutter")){
-        message.reply("Flutter SUCKS");
-      }
-      if (content.includes("react")){
-        message.reply("React is the best");
-      }
       
+    });
+
+    this.client.on(Events.InteractionCreate, async (interaction) => {
+        if (!interaction.isChatInputCommand()) return;
+        
+        if (interaction.commandName === "ping") {
+            await interaction.reply("Pong!");
+        }
+        else if (interaction.commandName === "react") {
+            await interaction.reply("React is the best!");
+        }
+        else if (interaction.commandName === "flutter") {
+            await interaction.reply("Flutter SUCKS!");
+        }
+        
+
     });
 
     this.client.on(Events.ClientReady, () => {
