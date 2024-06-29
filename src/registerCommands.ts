@@ -13,67 +13,38 @@ const commands = [
         description: "Rolls a 20-sided die",
     },
     {
-        name: "pizza",
-        description: "Replies with pizza",
+        name: "character",
+        description: "Manages character sheets",
         options: [
             {
-                name: "type",
-                type: 3,
-                description: "The type of pizza",
-                required: true,
-                choices: [
+                name: "create",
+                type: 1, // SUB_COMMAND
+                description: "Create a new character sheet",
+                options: [
                     {
-                        name: "Pepperoni",
-                        value: "pepperoni"
+                        name: "name",
+                        type: 3, // STRING
+                        description: "Character name",
+                        required: true,
                     },
-                    {
-                        name: "Cheese",
-                        value: "cheese"
-                    },
-                    {
-                        name: "Veggie",
-                        value: "veggie"
-                    }
-                ]
+                    // Additional options for character creation
+                ],
             },
             {
-                name: "size",
-                type: 3,
-                description: "The size of the pizza",
-                required: false,
-                choices: [
-                    {
-                        name: "Small",
-                        value: "small"
-                    },
-                    {
-                        name: "Medium",
-                        value: "medium"
-                    },
-                    {
-                        name: "Large",
-                        value: "large"
-                    }
-                ]
+                name: "update",
+                type: 1, // SUB_COMMAND
+                description: "Update an existing character sheet",
+                // Options for updating
             },
             {
-                name: "crust",
-                type: 3,
-                description: "The crust of the pizza",
-                required: false,
-                choices: [
-                    {
-                        name: "Thin",
-                        value: "thin"
-                    },
-                    {
-                        name: "Thick",
-                        value: "thick"
-                    }
-                ]
-            }
-        ]
-    }
+                name: "get",
+                type: 1, // SUB_COMMAND
+                description: "Get a character sheet",
+                // Options for retrieving
+            },
+            // Additional subcommands as needed
+        ],
+    },
 ];
 
 const rest = new REST({ version: "10" }).setToken(process.env.BOT_TOKEN || "");

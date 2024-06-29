@@ -58,8 +58,6 @@ class RealmRunner {
             });
             await interaction.reply({embeds: [embed]});
         }
-
-
     });
 
     this.client.on(Events.ClientReady, () => {
