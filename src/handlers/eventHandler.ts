@@ -6,6 +6,8 @@ export default (client) => {
 
     for (const eventFolder of eventFolders) {
         const eventFiles = getAllFiles(eventFolder);
+        eventFiles.sort((a, b) => a.localeCompare(b));
+        console.log(eventFiles);
 
         const eventName = eventFolder.replace(/\\/g, "/").split("/").pop();
         console.log(`Loading ${eventName} events...`);
