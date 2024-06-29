@@ -1,23 +1,34 @@
-// src/registerCommands.ts
-import { REST } from '@discordjs/rest';
-import { Routes } from 'discord-api-types/v9';
-import { SlashCommandBuilder } from 'discord.js';
-import dotenv from 'dotenv';
+import { REST, Routes } from "discord.js";
+import dotenv from "dotenv";
 
 dotenv.config();
 
 const commands = [
-    new SlashCommandBuilder()
-        .setName('opinion')
-        .setDescription('Get the bot\'s opinion on a topic')
-        .addStringOption(option => 
-            option.setName('topic')
-                        .setDescription('The topic you want an opinion on')
-                        .setRequired(true)),
-].map(command => command.toJSON());
+    {
+        name: "ping",
+        description: "Replies with pong",
+    },
+    {
+        name: "react",
+        description: "Replies with React is the best",
+    },
+    {
+        name: "flutter",
+        description: "Replies with Flutter SUCKS",
+    },
+];
 
-const rest = new REST({ version: '9' }).setToken(process.env.BOT_TOKEN || '');
+const rest = new REST({ version: "10" }).setToken(process.env.BOT_TOKEN || "");
 
-rest.put(Routes.applicationCommands(process.env.CLIENT_ID || ''), { body: commands })
-    .then(() => console.log('Successfully registered application commands.'))
-    .catch(console.error);
+(async () => {
+    try {
+        console.log("Registering commands...");
+        await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID || "", process.env.GUILD_ID || ""), {
+            body: commands,
+        });
+        console.log("Successfully registered commands.");
+        
+    } catch (error) {
+        console.log(error);
+    }
+})();

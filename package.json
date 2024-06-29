@@ -2,7 +2,7 @@
   "name": "realm-runner",
   "version": "1.0.0",
   "description": "A detailed discord bot to host your own text adventures and DnD sessions in discord chats.",
-  "main": "main.js",
+  "main": "src/main.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
