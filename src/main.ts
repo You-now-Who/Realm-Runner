@@ -1,5 +1,7 @@
 // src/main.ts
 import { Client, Events, Message, GatewayIntentBits, EmbedBuilder } from "discord.js";
+import { firestore } from "./firebase/config";
+import { collection, addDoc, setDoc } from "firebase/firestore";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -33,31 +35,28 @@ class RealmRunner {
             const roll = Math.floor(Math.random() * 20) + 1;
             await interaction.reply("You rolled a " + roll + "!");
         }
-        else if (interaction.commandName === "pizza") {
-            const type = interaction.options.getString("type");
-            const size = interaction.options.getString("size");
-            const crust = interaction.options.getString("crust");
-            // await interaction.reply("You ordered a " + type + " pizza!");
-            const embed = new EmbedBuilder()
-            .setTitle("Pizza Order")
-            .setDescription("Your pizza order has been received!")
-            .setColor("Random")
-            .addFields({
-                name: "Type",
-                value: type,
-                inline: true
-            }, {
-                name: "Size",
-                value: size,
-                inline: true
-            }, {
-                name: "Crust",
-                value: crust,
-                inline: true
+        else if (interaction.commandName === "start") {
+            const title = interaction.options.getString("title");
+            const description = interaction.options.getString("description");
+            const user = interaction.user;
+            console.log("Starting new campaign", title, description, user);
             
+            const docRef = await addDoc(collection(firestore, "campaigns"), {
+                title: title,
+                description: description,
+                user: user.id,
             });
-            await interaction.reply({embeds: [embed]});
+
+            console.log("Document written with ID: ", docRef.id);
+
+            const embed = new EmbedBuilder()
+                .setTitle(title)
+                .setDescription(description)
+                .setColor(0x00ff00);
+            
+            await interaction.reply({ embeds: [embed] });
         }
+
     });
 
     this.client.on(Events.ClientReady, () => {

@@ -13,36 +13,53 @@ const commands = [
         description: "Rolls a 20-sided die",
     },
     {
-        name: "character",
-        description: "Manages character sheets",
+        name: "start",
+        description: "Starts a new game of D&D",
         options: [
             {
-                name: "create",
-                type: 1, // SUB_COMMAND
-                description: "Create a new character sheet",
-                options: [
+                name: "title",
+                type: 3,
+                description: "New campaign title",
+                required: true,
+            },
+            {
+                name: "description",
+                type: 3,
+                description: "New campaign description",
+                required: true,
+            },
+            {
+                name: "character_class",
+                type: 3,
+                description: "Character class",
+                required: true,
+                choices: [
                     {
-                        name: "name",
-                        type: 3, // STRING
-                        description: "Character name",
-                        required: true,
+                        name: "Warrior",
+                        value: "warrior",
                     },
-                    // Additional options for character creation
+                    {
+                        name: "Mage",
+                        value: "mage",
+                    },
+                    {
+                        name: "Rogue",
+                        value: "rogue",
+                    },
                 ],
             },
             {
-                name: "update",
-                type: 1, // SUB_COMMAND
-                description: "Update an existing character sheet",
-                // Options for updating
+                name: "starting_location",
+                type: 3,
+                description: "Starting location",
+                required: true,
             },
             {
-                name: "get",
-                type: 1, // SUB_COMMAND
-                description: "Get a character sheet",
-                // Options for retrieving
+                name: "story_editor",
+                type: 3,
+                description: "Detailed editor for the story",
+                required: true,
             },
-            // Additional subcommands as needed
         ],
     },
 ];
