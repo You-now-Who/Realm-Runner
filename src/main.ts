@@ -1,5 +1,5 @@
 // src/main.ts
-import { Client, Events, Message, GatewayIntentBits, ChatInputCommandInteraction, SlashCommandBuilder} from "discord.js";
+import { Client, Events, Message, GatewayIntentBits} from "discord.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -29,9 +29,6 @@ class RealmRunner {
       }
       if (content.includes("python") || content.includes("Python")){
         message.reply("Python is the best");
-      }
-      if (content.includes("Armaan") || content.includes("armaan")){
-        message.reply("Armaan chill out, dems the facts");
       }
 
     });

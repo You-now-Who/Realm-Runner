@@ -5,14 +5,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // src/main.ts
 const discord_js_1 = require("discord.js");
+const handler_1 = require("./handler");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const DISCORD_ACCESS_TOKEN = process.env.BOT_TOKEN || "";
+const DISCORD_CLIENT_ID = process.env.DISCORD_APPLICATION_ID || "";
 class RealmRunner {
     constructor() {
         this.client = new discord_js_1.Client({
             intents: [discord_js_1.GatewayIntentBits.Guilds, discord_js_1.GatewayIntentBits.GuildMessages, discord_js_1.GatewayIntentBits.MessageContent,],
         });
+        this.discordRestClient = new discord_js_1.REST().setToken(DISCORD_ACCESS_TOKEN);
+        this.interactionHandler = new handler_1.InteractionHandler();
     }
     addClientEventHandlers() {
         this.client.on(discord_js_1.Events.MessageCreate, (message) => {
@@ -23,14 +27,8 @@ class RealmRunner {
             if (content === "ping") {
                 message.reply("pong");
             }
-            if (content.includes("flutter")) {
-                message.reply("Flutter SUCKS");
-            }
-            if (content.includes("python") || content.includes("Python")) {
-                message.reply("Python is the best");
-            }
-            if (content.includes("Armaan") || content.includes("armaan")) {
-                message.reply("Armaan chill out, dems the facts");
+            if (content === "d20") {
+                message.reply(`You rolled a ${Math.floor(Math.random() * 20) + 1}`);
             }
         });
         this.client.on(discord_js_1.Events.ClientReady, () => {
@@ -45,9 +43,23 @@ class RealmRunner {
             .login(DISCORD_ACCESS_TOKEN)
             .then(() => {
             this.addClientEventHandlers();
+            this.registerSlashCommands();
         })
             .catch((err) => {
             console.error("Error starting bot", err);
+        });
+    }
+    registerSlashCommands() {
+        const commands = this.interactionHandler.getSlashCommands();
+        this.discordRestClient
+            .put(discord_js_1.Routes.applicationCommands(DISCORD_CLIENT_ID), {
+            body: commands,
+        })
+            .then((data) => {
+            console.log(`Successfully registered ${data.length} global application (/) commands`);
+        })
+            .catch((err) => {
+            console.error("Error registering application (/) commands", err);
         });
     }
 }
