@@ -7,20 +7,31 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-const DISCORD_ACCESS_TOKEN = process.env.BOT_TOKEN || '';
+const DISCORD_ACCESS_TOKEN = process.env.BOT_TOKEN || "";
 class RealmRunner {
     constructor() {
         this.client = new discord_js_1.Client({
-            intents: [
-                discord_js_1.GatewayIntentBits.Guilds,
-                discord_js_1.GatewayIntentBits.GuildMessages,
-            ],
+            intents: [discord_js_1.GatewayIntentBits.Guilds, discord_js_1.GatewayIntentBits.GuildMessages, discord_js_1.GatewayIntentBits.MessageContent,],
         });
     }
     addClientEventHandlers() {
         this.client.on(discord_js_1.Events.MessageCreate, (message) => {
+            if (message.author.bot) {
+                return;
+            }
             const { content } = message;
-            message.reply(`Realm Runner Bot says: ${content}`);
+            if (content === "ping") {
+                message.reply("pong");
+            }
+            if (content.includes("flutter")) {
+                message.reply("Flutter SUCKS");
+            }
+            if (content.includes("python") || content.includes("Python")) {
+                message.reply("Python is the best");
+            }
+            if (content.includes("Armaan") || content.includes("armaan")) {
+                message.reply("Armaan chill out, dems the facts");
+            }
         });
         this.client.on(discord_js_1.Events.ClientReady, () => {
             console.log("Realm Runner bot client logged in");
@@ -36,7 +47,7 @@ class RealmRunner {
             this.addClientEventHandlers();
         })
             .catch((err) => {
-            console.error('Error starting bot', err);
+            console.error("Error starting bot", err);
         });
     }
 }
