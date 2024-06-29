@@ -1,5 +1,5 @@
 // src/main.ts
-import { Client, GatewayIntentBits } from 'discord.js';
+import { Client, Events, Message, GatewayIntentBits } from 'discord.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -14,17 +14,23 @@ class RealmRunner {
       intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent,
       ],
     });
   }
 
   private addClientEventHandlers() {
-    this.client.on('ready', () => {
-      console.log('Bot is ready');
+    this.client.on(Events.MessageCreate, (message: Message) => {
+      const { content } = message;
+      message.reply(`Realm Runner Bot says: ${content}`);
     });
 
-    // Add more event listeners as needed
+    this.client.on(Events.ClientReady, () => {
+      console.log("Realm Runner bot client logged in");
+    });
+
+    this.client.on(Events.Error, (err: Error) => {
+      console.error("Client error", err);
+    });
   }
 
   startBot() {
@@ -37,6 +43,7 @@ class RealmRunner {
         console.error('Error starting bot', err);
       });
   }
+  
 }
 
 const app = new RealmRunner();

@@ -14,15 +14,20 @@ class RealmRunner {
             intents: [
                 discord_js_1.GatewayIntentBits.Guilds,
                 discord_js_1.GatewayIntentBits.GuildMessages,
-                discord_js_1.GatewayIntentBits.MessageContent,
             ],
         });
     }
     addClientEventHandlers() {
-        this.client.on('ready', () => {
-            console.log('Bot is ready');
+        this.client.on(discord_js_1.Events.MessageCreate, (message) => {
+            const { content } = message;
+            message.reply(`Realm Runner Bot says: ${content}`);
         });
-        // Add more event listeners as needed
+        this.client.on(discord_js_1.Events.ClientReady, () => {
+            console.log("Realm Runner bot client logged in");
+        });
+        this.client.on(discord_js_1.Events.Error, (err) => {
+            console.error("Client error", err);
+        });
     }
     startBot() {
         this.client
